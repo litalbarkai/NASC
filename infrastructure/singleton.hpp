@@ -10,6 +10,8 @@
 #include <mutex>        //std::mutex, lock_guard
 #include <cstdlib>      //std::atexit
 
+#include "utils.hpp"    //ThrowIfBad
+
 namespace Infrastructure
 {
 template <typename T>
@@ -45,7 +47,7 @@ T* Singleton<T>::GetInstance()
     std::atomic_thread_fence(std::memory_order_acquire);
     if (nullptr == tmp)
     {
-        const std::lock_guard<std::mutex> lock(s_alloc_m);
+        const std::lock_guard<std::mutex> lock(s_alloc_mutex);
         
         tmp = s_pInstance;
         if (nullptr == tmp)
@@ -69,7 +71,7 @@ T* Singleton<T>::GetInstance()
 template <typename T>
 void Singleton<T>::Cleanup()
 {
-    const std::lock_guard<std::mutex> lock(s_alloc_m);
+    const std::lock_guard<std::mutex> lock(s_alloc_mutex);
 
     delete s_pInstance;
     s_pInstance = nullptr;
