@@ -6,8 +6,8 @@
 #define __SINGLETON_HPP__
 
 #include <system_error> //std::system_error
-#include <atomic>       //syd::atomic, atomic_thread_fence
-#include <mutex>        //std::mutex, lock_guard
+#include <atomic>       //std::atomic_thread_fence
+#include <mutex>        //std::mutex, std::lock_guard
 #include <cstdlib>      //std::atexit
 
 #include "utils.hpp"    //ThrowIfBad
